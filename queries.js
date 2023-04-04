@@ -5,17 +5,33 @@ import { argv } from "node:process";
 import _yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 const yargs = _yargs(hideBin(process.argv));
+import { Sequelize, DataTypes, Model } from "sequelize";
 import dotenv from "dotenv";
-//dotenv.config();
 
-yargs.option({
-    d: { demandOption: false, alias: "descripcion" },
-    f: { demandOption: false, alias: "fecha" },
-    m: { demandOption: false, alias: "monto" },
-    c: { demandOption: false, alias: "cuenta" },
+const sequelize = new Sequelize("postgres", "postgres", "HuC4-rV.PV6qr!6", {
+  host: "db.uxukrikzkfreeoehhypg.supabase.co",
+  dialect: "postgres",
 });
 
-const params = yargs.argv;
+try {
+    await sequelize.authenticate();
+    console.log('Connection has been established successfully.');
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+  }
 
-pool.connect();
-console.log("holi")
+
+//Clase extiende del modelo 
+class Pacientes extends Model {}
+
+//Definir nombre de la tabla y sus campos
+Pacientes.init({ 
+    nombre: {type: DataTypes.STRING, allowNull: false}, 
+    rut: {type: DataTypes.STRING },
+    direccion: {type: DataTypes.STRING }},
+    { sequelize, modelName: 'Pacientes' });
+
+// `sequelize.define` retorna el modelo 
+console.log(Pacientes === sequelize.models.Pacientes);
+
+await Pacientes.sync();
