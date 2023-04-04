@@ -8,14 +8,28 @@ const yargs = _yargs(hideBin(process.argv));
 import dotenv from "dotenv";
 //dotenv.config();
 
-yargs.option({
-    d: { demandOption: false, alias: "descripcion" },
-    f: { demandOption: false, alias: "fecha" },
-    m: { demandOption: false, alias: "monto" },
-    c: { demandOption: false, alias: "cuenta" },
+// Datos iniciales de la base de datos
+const sequelize = new Sequelize("postgres", "postgres", "HuC4-rV.PV6qr!6", {
+  host: "db.uxukrikzkfreeoehhypg.supabase.co",
+  dialect: "postgres",
 });
 
+// Revisar si la conexión se establece correctamente
 const params = yargs.argv;
 
-pool.connect();
-console.log("holi")
+// Clase extiende del modelo
+class Pacientes extends Model { }
+
+// Nombre de la tabla y sus campos
+Pacientes.init({
+  nombre: { type: DataTypes.STRING, allowNull: false },
+  rut: { type: DataTypes.STRING },
+  direccion: { type: DataTypes.STRING }
+},
+  { sequelize, modelName: 'Pacientes' });
+
+// Retorna el modelo
+console.log(Pacientes === sequelize.models.Pacientes);
+
+// Crear tabla si no existe (no hacer nada si no existe)
+await Pacientes.sync();
