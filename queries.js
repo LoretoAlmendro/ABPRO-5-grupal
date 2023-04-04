@@ -27,6 +27,7 @@ class Pacientes extends Model {}
 class Licencias extends Model {}
 class Medicos extends Model {}
 
+
 // Nombre de la tabla y sus campos
 Pacientes.init({ 
     nombre: {type: DataTypes.STRING, allowNull: false}, 
@@ -55,6 +56,3 @@ console.log(Pacientes === sequelize.models.Pacientes);
 await Pacientes.sync();
 await Licencias.sync();
 await Medicos.sync();
-
-// Asociación de tablas
-Licencias.belongsToMany(Medicos, { through: 'LicenciasMedicos' });
