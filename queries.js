@@ -1,48 +1,52 @@
-import pool from "./lib/db_connection.js";
-import pg from "pg";
-const { Pool } = pg;
-import { argv } from "node:process";
-import _yargs from "yargs";
-import { hideBin } from "yargs/helpers";
-const yargs = _yargs(hideBin(process.argv));
-import dotenv from "dotenv";
-//dotenv.config();
+import { DataTypes } from "sequelize";
+import sequelize from "./lib/db_connection.js";
 
-// Datos iniciales de la base de datos
-const sequelize = new Sequelize("postgres", "postgres", "HuC4-rV.PV6qr!6", {
-  host: "db.uxukrikzkfreeoehhypg.supabase.co",
-  dialect: "postgres",
+const pacientes = sequelize.define("_paciente", {
+  id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  nombre: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
+  rut: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
+  direccion: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
 });
 
-// Revisar si la conexión se establece correctamente
-const params = yargs.argv;
+const consultas = sequelize.define("consulta", {
+  id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  fecha: {
+    type: DataTypes.DATE,
+    allowNull: false,
+  },
+  hora: {
+    type: DataTypes.TIME,
+    allowNull: false,
+  },
+  box: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
+});
 
+(async () => {
+  await sequelize.sync({ force: false });
+  console.log("La(s) tabla(s) se han creado exitosamente");
+})();
 
-// Clase extiende del modelo 
-class Pacientes extends Model {}
-class Licencias extends Model {}
-
-
-// Nombre de la tabla y sus campos
-Pacientes.init({
-  nombre: { type: DataTypes.STRING, allowNull: false },
-  rut: { type: DataTypes.STRING },
-  direccion: { type: DataTypes.STRING }
-},
-  { sequelize, modelName: 'Pacientes' });
-
-Licencias.init({ 
-  codigo: { type: DataTypes.INTEGER, allowNull: false }, 
-  diagnostico: { type: DataTypes.STRING },
-  fechaInicio: { type: DataTypes.DATE },
-  fechaTermino: { type: DataTypes.DATE }},
-  { sequelize, modelName: 'Licencias' });
-
-// Retorna el modelo
-console.log(Pacientes === sequelize.models.Pacientes);
-
-// Crear tabla si no existe (no hacer nada si no existe)
-await Pacientes.sync();
-
-await Licencias.sync();
-
+consultas.belongsTo(pacientes, {
+  foreignKey: "id_paciente",
+});
+pacientes.hasMany(consultas, { foreignKey: "id_paciente" });
