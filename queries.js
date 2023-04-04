@@ -22,7 +22,7 @@ try {
     console.error('Unable to connect to the database:', error);
   }
 
-// Clase extiende del modelo 
+// Clase "nueva" extiende de "Model"
 class Pacientes extends Model {}
 class Licencias extends Model {}
 class Medicos extends Model {}
