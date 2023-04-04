@@ -19,8 +19,8 @@ const params = yargs.argv;
 
 
 // Clase extiende del modelo 
-class Pacientes extends Model {}
-class Licencias extends Model {}
+class Pacientes extends Model { }
+class Licencias extends Model { }
 
 
 // Nombre de la tabla y sus campos
@@ -31,11 +31,12 @@ Pacientes.init({
 },
   { sequelize, modelName: 'Pacientes' });
 
-Licencias.init({ 
-  codigo: { type: DataTypes.INTEGER, allowNull: false }, 
+Licencias.init({
+  codigo: { type: DataTypes.INTEGER, allowNull: false },
   diagnostico: { type: DataTypes.STRING },
   fechaInicio: { type: DataTypes.DATE },
-  fechaTermino: { type: DataTypes.DATE }},
+  fechaTermino: { type: DataTypes.DATE }
+},
   { sequelize, modelName: 'Licencias' });
 
 // Retorna el modelo
