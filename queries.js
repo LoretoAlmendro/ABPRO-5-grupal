@@ -25,6 +25,7 @@ try {
 // Clase extiende del modelo 
 class Pacientes extends Model {}
 class Licencias extends Model {}
+class Medicos extends Model {}
 
 // Nombre de la tabla y sus campos
 Pacientes.init({ 
@@ -40,9 +41,20 @@ Licencias.init({
   fechaTermino: { type: DataTypes.DATE }},
   { sequelize, modelName: 'Licencias' });
 
+Medicos.init({ 
+  nombre: {type: DataTypes.STRING, allowNull: false}, 
+  rut: {type: DataTypes.STRING },
+  direccion: {type: DataTypes.STRING }},
+  { sequelize, modelName: 'Medicos' });
+
+
 // Retorna el modelo
 console.log(Pacientes === sequelize.models.Pacientes);
 
-// Crear tabla si no existe (no hacer nada si no existe)
+// Crear tabla si no existe (no hacer nada si existe)
 await Pacientes.sync();
 await Licencias.sync();
+await Medicos.sync();
+
+// Asociación de tablas
+Licencias.belongsToMany(Medicos, { through: 'LicenciasMedicos' });
