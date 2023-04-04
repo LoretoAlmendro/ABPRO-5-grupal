@@ -24,6 +24,7 @@ try {
 
 // Clase extiende del modelo 
 class Pacientes extends Model {}
+class Licencias extends Model {}
 
 // Nombre de la tabla y sus campos
 Pacientes.init({ 
@@ -32,8 +33,16 @@ Pacientes.init({
     direccion: {type: DataTypes.STRING }},
     { sequelize, modelName: 'Pacientes' });
 
+Licencias.init({ 
+  codigo: { type: DataTypes.INTEGER, allowNull: false }, 
+  diagnostico: { type: DataTypes.STRING },
+  fechaInicio: { type: DataTypes.DATE },
+  fechaTermino: { type: DataTypes.DATE }},
+  { sequelize, modelName: 'Licencias' });
+
 // Retorna el modelo
 console.log(Pacientes === sequelize.models.Pacientes);
 
 // Crear tabla si no existe (no hacer nada si no existe)
 await Pacientes.sync();
+await Licencias.sync();
