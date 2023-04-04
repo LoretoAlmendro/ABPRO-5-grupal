@@ -9,7 +9,7 @@ import { Sequelize, DataTypes, Model } from "sequelize";
 import dotenv from "dotenv";
 
 // Datos iniciales de la base de datos
-const sequelize = new Sequelize("postgres", "postgres", "HuC4-rV.PV6qr!6", {
+const sequelize = new Sequelize("postgres", "postgres", process.env.SUPABASE_PASS, {
   host: "db.uxukrikzkfreeoehhypg.supabase.co",
   dialect: "postgres",
 });
@@ -26,7 +26,6 @@ try {
 class Pacientes extends Model {}
 class Licencias extends Model {}
 class Medicos extends Model {}
-
 
 // Nombre de la tabla y sus campos
 Pacientes.init({ 
