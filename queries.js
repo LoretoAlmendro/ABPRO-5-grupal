@@ -55,3 +55,6 @@ console.log(Pacientes === sequelize.models.Pacientes);
 await Pacientes.sync();
 await Licencias.sync();
 await Medicos.sync();
+
+// Asociación de tablas
+Licencias.belongsToMany(Medicos, { through: 'Lic_Med' });
