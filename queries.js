@@ -71,13 +71,13 @@ Medico.init({
   }
 }, { sequelize, modelName: 'Medico' });
 
-// Crear tabla si no existe (no hacer nada si no existe)
 
 //Enlace tipo model
 Especialidad.hasMany(Medico);
 // Usuario.hasMany(Publicacion, { as: 'publicaciones' });
 Medico.belongsTo(Especialidad);
 
+// Crear tabla si no existe (no hacer nada si no existe)
 await sequelize.sync({ force: true });
 
 // Publicacion.belongsTo(Usuario, { as: 'usuario' });
